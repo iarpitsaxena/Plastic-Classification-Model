@@ -1,4 +1,3 @@
-
 import streamlit as st
 import tensorflow as tf
 import numpy as np
@@ -60,23 +59,27 @@ uploaded_file = st.file_uploader(
 
 
 
+
 if uploaded_file is not None:
-    image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_container_width=True)
+    try:
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Image")
 
-    with st.spinner("Classifying..."):
-        processed_image = preprocess_image(image)
-        prediction = model.predict(processed_image)
-        predicted_class = class_labels[np.argmax(prediction)]
-        confidence = np.max(prediction) * 100
+        with st.spinner("Classifying..."):
+            processed_image = preprocess_image(image)
+            prediction = model.predict(processed_image)
+            predicted_class = class_labels[np.argmax(prediction)]
+            confidence = np.max(prediction) * 100
 
-    st.markdown(f"""
-    <div style='background: linear-gradient(90deg, #e0f7fa 0%, #fffde7 100%); border-radius:10px; padding:22px 0; margin-top:22px; text-align:center; border:1.5px solid #b2dfdb;'>
-        <span style='font-size:20px; color:#009688; font-weight:600;'><b>Prediction Result</b></span><br>
-        <span style='font-size:17px; color:#37474f;'><b>Class:</b> <span style='color:#1976d2;'>{predicted_class}</span></span><br>
-        <span style='font-size:16px; color:#37474f;'><b>Confidence:</b> <span style='color:#ff9800;'>{confidence:.2f}%</span></span>
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div style='background: linear-gradient(90deg, #e0f7fa 0%, #fffde7 100%); border-radius:10px; padding:22px 0; margin-top:22px; text-align:center; border:1.5px solid #b2dfdb;'>
+            <span style='font-size:20px; color:#009688; font-weight:600;'><b>Prediction Result</b></span><br>
+            <span style='font-size:17px; color:#37474f;'><b>Class:</b> <span style='color:#1976d2;'>{predicted_class}</span></span><br>
+            <span style='font-size:16px; color:#37474f;'><b>Confidence:</b> <span style='color:#ff9800;'>{confidence:.2f}%</span></span>
+        </div>
+        """, unsafe_allow_html=True)
+    except Exception as e:
+        st.error(f"Error: The uploaded file could not be opened as an image. Please upload a valid image file.\n\nDetails: {e}")
 
 
 
