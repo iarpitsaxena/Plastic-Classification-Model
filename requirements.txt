@@ -1,9 +1,20 @@
-numpy
+# numpy
+# pandas
+# matplotlib
+# opencv-python
+# tqdm
+# tensorflow
+# Streamlit
+# numpy
+# pillow
+
+streamlit==1.25.0
+numpy==1.23.5
 pandas
 matplotlib
 opencv-python
 tqdm
-tensorflow
-Streamlit
-numpy
-pillow
+Pillow
+tensorflow-macos==2.10.0
+protobuf==3.20.3
+tensorboard==2.10.1
